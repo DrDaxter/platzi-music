@@ -1,16 +1,44 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { IntroGuard } from './guards/intro/intro.guard';
+import { LoginGuard } from './guards/login/login.guard';
 
 const routes: Routes = [
-  {
+  /* {
     path: 'home',
     loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
-  },
+  }, */
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: '/menu',
     pathMatch: 'full'
   },
+  {
+    path: 'intro',
+    loadChildren: () => import('./intro/intro.module').then( m => m.IntroPageModule)
+  },
+  {
+    path: 'login',
+    loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
+  },
+  {
+    path: 'register',
+    loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule)
+  },
+  {
+    path: 'menu',
+    loadChildren: () => import('./menu/menu.module').then( m => m.MenuPageModule),
+    canActivate:[LoginGuard ,IntroGuard]
+  },
+  {
+    path: 'songs-modal',
+    loadChildren: () => import('./songs-modal/songs-modal.module').then( m => m.SongsModalPageModule)
+  },
+  {
+    path: 'albums-modal',
+    loadChildren: () => import('./albums-modal/albums-modal.module').then( m => m.AlbumsModalPageModule)
+  },
+  
 ];
 
 @NgModule({

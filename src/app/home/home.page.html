@@ -1,20 +1,69 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+    <ion-buttons slot="end">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
+<ion-content >
+  <h1>Artists</h1>
+  <ion-slides pager="true" *ngIf="artists.length" [options]="slideOpts">
+    <ion-slide *ngFor="let artist of artists">
+      <ion-avatar (click)="showSong(artist)">
+        <img src="{{artist.images[0].url}}" />
+        <span>{{artist.name}}</span>
+      </ion-avatar>
+    </ion-slide>
+  </ion-slides>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+  <h1>Albums</h1>
+  <ion-slides pager="true" *ngIf="albums.length" [options]="slideOpts">
+    <ion-slide *ngFor="let album of albums">
+      <ion-avatar class="square-avatar" (click)="showAlbum(album)">
+        <img src="{{album.images[0].url}}" />
+        <span>{{album.name}}</span>
+      </ion-avatar>
+    </ion-slide>
+  </ion-slides>
+  <h1>Canciones</h1>
+  <ion-slides pager="true" *ngIf="songs.length" [options]="slideOpts">
+    <ion-slide *ngFor="let song of songs">
+      <ion-avatar class="square-avatar">
+        <img src="{{song.images[0].url}}" />
+        <span>{{song.name}}</span>
+      </ion-avatar>
+    </ion-slide>
+  </ion-slides>
 </ion-content>
+<ion-footer>
+  <ion-grid >
+    <ion-row *ngIf="currentSong">
+      <ion-col class="ion-text-start" >{{ parseTime(currentSong.currentTime) || "00:00"}}</ion-col>
+      <ion-col class="ion-text-end">{{parseTime(currentSong.duration) || "00:00"}}</ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-progress-bar [value]="newTime">
+  </ion-progress-bar>
+  <ion-grid >
+    <ion-row>
+      <ion-col size="1">
+        <ion-icon name="heart"></ion-icon>
+      </ion-col>
+      <ion-col size="10" class="ion-text-center">
+        <ion-text color="primary">
+          {{song.name || "No has elejido canción"}}
+        </ion-text>
+      </ion-col>
+      <ion-col size="1">
+        <ion-icon name="play" *ngIf="playing" (click)="play()"></ion-icon>
+        <ion-icon name="pause" *ngIf="!playing" (click)="pause()"></ion-icon>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>
+<!-- <ion-text color="danger" *ngIf="!song.name">
+    <h2>Aqui aparece la cancion.</h2>
+  </ion-text>
+  <ion-text color="primary" *ngIf="song.name">
+    <h2>{{song.name}}</h2>
+  </ion-text> -->
